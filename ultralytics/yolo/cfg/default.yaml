@@ -5,7 +5,7 @@ task: detect  # YOLO task, i.e. detect, segment, classify, pose
 mode: train  # YOLO mode, i.e. train, val, predict, export, track, benchmark
 
 # Train settings -------------------------------------------------------------------------------------------------------
-model:  # path to model file, i.e. yolov8n.pt, yolov8n.yaml
+model: yolov8n.pt # path to model file, i.e. yolov8n.pt, yolov8n.yaml
 data:  # path to data file, i.e. coco128.yaml
 epochs: 100  # number of epochs to train for
 patience: 50  # epochs to wait for no observable improvement for early stopping of training
@@ -67,7 +67,7 @@ retina_masks: False  # use high-resolution segmentation masks
 boxes: True  # Show boxes in segmentation predictions
 
 # Export settings ------------------------------------------------------------------------------------------------------
-format: torchscript  # format to export to
+format: rknn  # format to export to
 keras: False  # use Keras
 optimize: False  # TorchScript: optimize for mobile
 int8: False  # CoreML/TF INT8 quantization

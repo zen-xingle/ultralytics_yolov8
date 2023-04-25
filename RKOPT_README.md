@@ -34,3 +34,11 @@ python ./ultralytics/yolo/engine/exporter.py
 执行完毕后，会生成 _rknnopt.torchscript 模型。假如原始模型为 yolov8n.pt，则生成 yolov8n_rknnopt.torchscript 模型。
 ```
 
+
+
+
+
+### 3.转RKNN模型、Python demo、C demo
+
+请参考 https://github.com/airockchip/rknn_model_zoo/tree/main/models/CV/object_detection/yolo 
+

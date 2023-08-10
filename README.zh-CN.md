@@ -1,3 +1,10 @@
+#### 导出适配 rknpu 的模型
+适配 rknpu 的模型结构可以在 npu 上获得更高的推理效率。关于导出细节请参考  [RKOPT_README_zh.md](./RKOPT_README_zh.md)
+
+
+
+---
+
 <div align="center">
   <p>
     <a href="https://ultralytics.com/yolov8" target="_blank">

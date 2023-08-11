@@ -10,7 +10,7 @@
 
 - 假设有 6000 个候选框，检测类别是 80 类，则阈值检索操作需要重复 6000* 80 ～= 4.8*10^5 次，占据了较多耗时。故导出模型时，在模型中额外新增了对 80 类检测目标进行求和操作，用于快速过滤置信度。(该结构在部分情况下对有效，与模型的训练结果有关)
 
-  可以在 ./ultralytics/nn/modules.py  470行～478行的位置，注释掉这部分优化，对应的代码是:
+  可以在 **./ultralytics/nn/modules.py**  52行～54行的位置，注释掉这部分优化，对应的代码是:
 
   ```
   cls_sum = torch.clamp(y[-1].sum(1, keepdim=True), 0, 1)
@@ -29,10 +29,10 @@
 在满足 ./requirements.txt 的环境要求后，执行以下语句导出模型
 
 ```
-# 调整 ./ultralytics/yolo/cfg/default.yaml 中 model 文件路径，默认为 yolov8n.pt，若自己训练模型，请调接至对应的路径
+# 调整 ./ultralytics/cfg/default.yaml 中 model 文件路径，默认为 yolov8n.pt，若自己训练模型，请调接至对应的路径
 
 export PYTHONPATH=./
-python ./ultralytics/yolo/engine/exporter.py
+python ./ultralytics/engine/exporter.py
 
 执行完毕后，会生成 _rknnopt.torchscript 模型。假如原始模型为 yolov8n.pt，则生成 yolov8n_rknnopt.torchscript 模型。
 ```
@@ -41,7 +41,7 @@ python ./ultralytics/yolo/engine/exporter.py
 
 导出代码改动解释
 
-- ultralytics/yolo/cfg/default.yaml 导出模型格式的参数 format, 添加了 'rknn' 的支持
+- ./ultralytics/cfg/default.yaml 导出模型格式的参数 format, 添加了 'rknn' 的支持
 - 模型推理到 Detect Head 时，format=='rknn'生效，跳过dfl与后处理，输出推理结果
 - 需要注意，本仓库没有测试对 pose head, segment head 的优化方式，目前暂不支持，如果需求可尝试自行更改。
 

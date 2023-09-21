@@ -1,3 +1,9 @@
+#### Get model optimized for RKNN
+
+Exports model with optimization for RKNN, please refer here [RKOPT_README.md](RKOPT_README.md) .Optimization for exporting model does not affect the training stage
+
+---
+
 <div align="center">
   <p>
     <a href="https://ultralytics.com/yolov8" target="_blank">

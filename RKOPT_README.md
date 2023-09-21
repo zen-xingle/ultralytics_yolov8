@@ -23,6 +23,7 @@ y.append(cls_sum)
 
 
 
+
 ## 3. Model Export Operation
 
 After meeting the environment requirements specified in "./requirements.txt," execute the following command to export the model( support detect/ segment model):
@@ -31,7 +32,7 @@ After meeting the environment requirements specified in "./requirements.txt," ex
 # Adjust the model file path in "./ultralytics/yolo/cfg/default.yaml" (default is yolov8n.pt). If you trained your own model, please provide the corresponding path.
 
 export PYTHONPATH=./
-python ./ultralytics/yolo/engine/exporter.py
+python ./ultralytics/engine/exporter.py
 
 # Upon completion, the "_rknnopt.torchscript" model will be generated. If the original model is "yolov8n.pt," the generated model will be "yolov8n_rknnopt.torchscript."
 ```

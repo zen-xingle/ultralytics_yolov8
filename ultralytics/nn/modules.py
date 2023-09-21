@@ -524,10 +524,23 @@ class Segment(Detect):
         p = self.proto(x[0])  # mask protos
         bs = p.shape[0]  # batch size
 
-        mc = torch.cat([self.cv4[i](x[i]).view(bs, self.nm, -1) for i in range(self.nl)], 2)  # mask coefficients
+        if self.export == True and self.format == 'rknn':
+            mc = [self.cv4[i](x[i]).view(bs, self.nm, -1) for i in range(self.nl)]
+        else:
+            mc = torch.cat([self.cv4[i](x[i]).view(bs, self.nm, -1) for i in range(self.nl)], 2)  # mask coefficients
         x = self.detect(self, x)
         if self.training:
             return x, mc, p
+
+        if self.export and self.format == 'rknn':
+            outputs = []
+            out_per_detect_branch = int(len(x)/self.nl)
+            for i in range(self.nl):
+                outputs.extend(x[i*out_per_detect_branch:(i+1)*out_per_detect_branch])
+                outputs.append(mc[i])
+            outputs.append(p)
+            return outputs
+
         return (torch.cat([x, mc], 1), p) if self.export else (torch.cat([x[0], mc], 1), (x[1], mc, p))
 
 

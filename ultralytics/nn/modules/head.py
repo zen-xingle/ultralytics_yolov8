@@ -49,7 +49,7 @@ class Detect(nn.Module):
             for i in range(self.nl):
                 y.append(self.cv2[i](x[i]))
                 cls = torch.sigmoid(self.cv3[i](x[i]))
-                cls_sum = torch.clamp(y[-1].sum(1, keepdim=True), 0, 1)
+                cls_sum = torch.clamp(cls.sum(1, keepdim=True), 0, 1)
                 y.append(cls)
                 y.append(cls_sum)
             return y
@@ -111,10 +111,22 @@ class Segment(Detect):
         p = self.proto(x[0])  # mask protos
         bs = p.shape[0]  # batch size
 
-        mc = torch.cat([self.cv4[i](x[i]).view(bs, self.nm, -1) for i in range(self.nl)], 2)  # mask coefficients
+        if self.export and self.format == 'rknn':
+            mc = [self.cv4[i](x[i]) for i in range(self.nl)]
+        else:
+            mc = torch.cat([self.cv4[i](x[i]).view(bs, self.nm, -1) for i in range(self.nl)], 2)  # mask coefficients
+
         x = self.detect(self, x)
         if self.training:
             return x, mc, p
+        if self.export and self.format == 'rknn':
+            bo = len(x)//3
+            relocated = []
+            for i in range(len(mc)):
+                relocated.extend(x[i*bo:(i+1)*bo])
+                relocated.extend([mc[i]])
+            relocated.extend([p])
+            return relocated
         return (torch.cat([x, mc], 1), p) if self.export else (torch.cat([x[0], mc], 1), (x[1], mc, p))
 
 

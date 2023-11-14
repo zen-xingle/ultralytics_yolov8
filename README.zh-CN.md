@@ -1,6 +1,6 @@
 #### 导出适配 RKNPU 的模型
 
-关于如何导出适配 RKNPU 的模型，请参考 [RKOPT_README_CN.md](RKOPT_README_CN.md), 该优化只在导出模型时候生效，训练代码按照原仓库的指引即可。
+关于如何导出适配 RKNPU 的模型，请参考 [RKOPT_README_CN.md](RKOPT_README_CN.md), 该优化只在导出模型时生效，训练代码按照原仓库的指引即可。
 
 ---
 

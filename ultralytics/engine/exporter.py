@@ -57,6 +57,7 @@ import warnings
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
+import cv2
 
 import torch
 
@@ -307,9 +308,20 @@ class Exporter:
         """YOLOv8 RKNN model export."""
         LOGGER.info(f'\n{prefix} starting export with torch {torch.__version__}...')
 
-        ts = torch.jit.trace(self.model, self.im, strict=False)
-        f = str(self.file).replace(self.file.suffix, f'_rknnopt.torchscript')
-        torch.jit.save(ts, str(f))
+        # ts = torch.jit.trace(self.model, self.im, strict=False)
+        # f = str(self.file).replace(self.file.suffix, f'_rknnopt.torchscript')
+        # torch.jit.save(ts, str(f))
+
+        f = str(self.file).replace(self.file.suffix, f'.onnx')
+        opset_version = self.args.opset or get_latest_opset()
+        torch.onnx.export(
+            self.model,
+            self.im[0:1,:,:,:],
+            f,
+            verbose=False,
+            opset_version=12,
+            do_constant_folding=True,  # WARNING: DNN inference with torch>=1.12 may require do_constant_folding=False
+            input_names=['images'])
 
         LOGGER.info(f'\n{prefix} feed {f} to RKNN-Toolkit or RKNN-Toolkit2 to generate RKNN model.\n' 
                     'Refer https://github.com/airockchip/rknn_model_zoo/tree/main/models/CV/object_detection/yolo')

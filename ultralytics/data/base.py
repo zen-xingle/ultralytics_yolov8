@@ -1,4 +1,5 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
+import cv2
 
 import glob
 import math
@@ -9,7 +10,6 @@ from multiprocessing.pool import ThreadPool
 from pathlib import Path
 from typing import Optional
 
-import cv2
 import numpy as np
 import psutil
 from torch.utils.data import Dataset

@@ -106,7 +106,7 @@ def select_device(device='', batch=0, newline=False, verbose=True):
         s += f'MPS ({get_cpu_info()})\n'
         arg = 'mps'
     else:  # revert to CPU
-        s += f'CPU ({get_cpu_info()})\n'
+        s += f'CPU ()\n'
         arg = 'cpu'
 
     if verbose and RANK == -1:
